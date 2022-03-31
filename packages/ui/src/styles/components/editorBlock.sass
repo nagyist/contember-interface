@@ -45,10 +45,6 @@
 	*:hover > & #{$root}-dragHandle
 		opacity: 1
 
-	// Split rule due Safari bug
-	*:focus:focus-within > & #{$root}-dragHandle
-		opacity: 1
-
 	// Touch devices like mobiles
 	@media (hover: none) and (pointer: coarse)
 		#{$root}-dragHandle
