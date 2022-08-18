@@ -13,7 +13,7 @@ import {
 	HasOneSelectCell, If, ImageUploadField,
 	LinkButton,
 	MultiSelectField,
-	NumberCell,
+	NumberCell, NumberField,
 	RichTextField,
 	SelectField,
 	SlugField,

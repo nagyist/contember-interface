@@ -1,0 +1,268 @@
+{
+	"formatVersion": 3,
+	"modifications": [
+		{
+			"modification": "updateRelationOnDelete",
+			"entityName": "ContentReferenceTag",
+			"fieldName": "reference",
+			"onDelete": "cascade"
+		},
+		{
+			"modification": "createEntity",
+			"entity": {
+				"eventLog": {
+					"enabled": true
+				},
+				"name": "Page",
+				"primary": "id",
+				"primaryColumn": "id",
+				"tableName": "page",
+				"fields": {
+					"id": {
+						"name": "id",
+						"columnName": "id",
+						"columnType": "uuid",
+						"nullable": false,
+						"type": "Uuid"
+					}
+				},
+				"unique": {}
+			}
+		},
+		{
+			"modification": "createEntity",
+			"entity": {
+				"eventLog": {
+					"enabled": true
+				},
+				"name": "PageRevision",
+				"primary": "id",
+				"primaryColumn": "id",
+				"tableName": "page_revision",
+				"fields": {
+					"id": {
+						"name": "id",
+						"columnName": "id",
+						"columnType": "uuid",
+						"nullable": false,
+						"type": "Uuid"
+					}
+				},
+				"unique": {}
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "Page",
+			"field": {
+				"name": "internalName",
+				"columnName": "internal_name",
+				"columnType": "text",
+				"nullable": false,
+				"type": "String"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "PageRevision",
+			"field": {
+				"name": "createdAt",
+				"columnName": "created_at",
+				"columnType": "timestamptz",
+				"nullable": false,
+				"type": "DateTime",
+				"default": "now"
+			},
+			"fillValue": "now"
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "PageRevision",
+			"field": {
+				"name": "title",
+				"columnName": "title",
+				"columnType": "text",
+				"nullable": true,
+				"type": "String"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "PageRevision",
+			"field": {
+				"name": "lead",
+				"columnName": "lead",
+				"columnType": "text",
+				"nullable": true,
+				"type": "String"
+			}
+		},
+		{
+			"modification": "createColumn",
+			"entityName": "PageRevision",
+			"field": {
+				"name": "footer",
+				"columnName": "footer",
+				"columnType": "text",
+				"nullable": true,
+				"type": "String"
+			}
+		},
+		{
+			"modification": "createRelation",
+			"entityName": "Page",
+			"owningSide": {
+				"type": "OneHasOne",
+				"name": "activeRevision",
+				"target": "PageRevision",
+				"joiningColumn": {
+					"columnName": "active_revision_id",
+					"onDelete": "restrict"
+				},
+				"nullable": true
+			}
+		},
+		{
+			"modification": "createRelation",
+			"entityName": "PageRevision",
+			"owningSide": {
+				"type": "ManyHasOne",
+				"name": "page",
+				"target": "Page",
+				"joiningColumn": {
+					"columnName": "page_id",
+					"onDelete": "cascade"
+				},
+				"nullable": false,
+				"inversedBy": "revisions"
+			},
+			"inverseSide": {
+				"type": "OneHasMany",
+				"name": "revisions",
+				"target": "PageRevision",
+				"ownedBy": "page",
+				"orderBy": [
+					{
+						"path": [
+							"createdAt"
+						],
+						"direction": "asc"
+					}
+				]
+			}
+		},
+		{
+			"modification": "createRelation",
+			"entityName": "PageRevision",
+			"owningSide": {
+				"type": "OneHasOne",
+				"name": "content",
+				"target": "Content",
+				"joiningColumn": {
+					"columnName": "content_id",
+					"onDelete": "restrict"
+				},
+				"nullable": true,
+				"orphanRemoval": true
+			}
+		},
+		{
+			"modification": "createRelation",
+			"entityName": "PageRevision",
+			"owningSide": {
+				"type": "ManyHasMany",
+				"name": "tags",
+				"target": "Tag",
+				"joiningTable": {
+					"eventLog": {
+						"enabled": true
+					},
+					"tableName": "page_revision_tags",
+					"joiningColumn": {
+						"columnName": "page_revision_id",
+						"onDelete": "cascade"
+					},
+					"inverseJoiningColumn": {
+						"columnName": "tag_id",
+						"onDelete": "cascade"
+					}
+				}
+			}
+		},
+		{
+			"modification": "patchAclSchema",
+			"patch": [
+				{
+					"op": "add",
+					"path": "/roles/admin/entities/Page",
+					"value": {
+						"predicates": {},
+						"operations": {
+							"read": {
+								"id": true,
+								"internalName": true,
+								"activeRevision": true,
+								"revisions": true
+							},
+							"create": {
+								"id": true,
+								"internalName": true,
+								"activeRevision": true,
+								"revisions": true
+							},
+							"update": {
+								"id": true,
+								"internalName": true,
+								"activeRevision": true,
+								"revisions": true
+							},
+							"delete": true,
+							"customPrimary": true
+						}
+					}
+				},
+				{
+					"op": "add",
+					"path": "/roles/admin/entities/PageRevision",
+					"value": {
+						"predicates": {},
+						"operations": {
+							"read": {
+								"id": true,
+								"createdAt": true,
+								"page": true,
+								"title": true,
+								"content": true,
+								"tags": true,
+								"lead": true,
+								"footer": true
+							},
+							"create": {
+								"id": true,
+								"createdAt": true,
+								"page": true,
+								"title": true,
+								"content": true,
+								"tags": true,
+								"lead": true,
+								"footer": true
+							},
+							"update": {
+								"id": true,
+								"createdAt": true,
+								"page": true,
+								"title": true,
+								"content": true,
+								"tags": true,
+								"lead": true,
+								"footer": true
+							},
+							"delete": true,
+							"customPrimary": true
+						}
+					}
+				}
+			]
+		}
+	]
+}

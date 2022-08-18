@@ -8,6 +8,7 @@ export const Navigation = () => (
 			<Menu.Item title="Tags" to="tags" />
 			<Menu.Item title="Categories" to="categories" />
 			<Menu.Item title="Articles" to="article/list" />
+			<Menu.Item title="Pages" to="page/list" />
 			<Menu.Item title="Homepage" to="homepage" />
 			<Menu.Item title="Locales" to="locales" />
 			<Menu.Item title="Seq ids" to="seq/list" />

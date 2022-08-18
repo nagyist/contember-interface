@@ -33,7 +33,7 @@ export class ContentReference {
 
 
 export class ContentReferenceTag {
-	reference = d.manyHasOne(ContentReference, 'tags').notNull()
+	reference = d.manyHasOne(ContentReference, 'tags').notNull().cascadeOnDelete()
 	tag = d.manyHasOne(Tag).notNull()
 	order = d.intColumn().notNull()
 }
