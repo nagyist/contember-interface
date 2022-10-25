@@ -73,8 +73,8 @@
 		"stacktracey": "2.1.7"
 	},
 	"peerDependencies": {
-		"react": "^17",
-		"react-dom": "^17"
+		"react": "^17 || ^18",
+		"react-dom": "^17 || ^18"
 	},
 	"devDependencies": {
 		"@contember/schema": "^1.0.0-rc.16",
