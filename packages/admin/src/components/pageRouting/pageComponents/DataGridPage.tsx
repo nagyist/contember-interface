@@ -1,4 +1,4 @@
-import { DataBindingProvider } from '@contember/binding'
+import { DataBindingProvider } from '@contember/react-binding'
 import { ComponentType, memo, ReactNode } from 'react'
 import {
 	DataGrid,

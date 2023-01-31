@@ -1,4 +1,4 @@
-import { Component, FieldValue, SugaredField, SugaredFieldProps, useField } from '@contember/binding'
+import { Component, FieldValue, SugaredField, SugaredFieldProps, useField } from '@contember/react-binding'
 import type { ReactElement, VideoHTMLAttributes } from 'react'
 import { FieldFallbackView, FieldFallbackViewPublicProps } from './FieldFallbackView'
 

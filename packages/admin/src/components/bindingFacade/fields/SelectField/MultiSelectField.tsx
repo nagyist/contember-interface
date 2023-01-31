@@ -1,4 +1,4 @@
-import { Component, EntityAccessor } from '@contember/binding'
+import { Component, EntityAccessor } from '@contember/react-binding'
 import { FieldContainer, FieldContainerProps, FieldErrors, getPortalRoot, PublicCommonReactSelectStylesProps, SelectCreateNewWrapper } from '@contember/ui'
 import { FunctionComponent, memo, MouseEventHandler, useCallback } from 'react'
 import type { MultiValueGenericProps, MultiValueProps, Props as SelectProps } from 'react-select'

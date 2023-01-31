@@ -90,8 +90,8 @@ importers:
   packages/admin:
     specifiers:
       '@babel/core': 7.17.10
-      '@contember/binding': workspace:*
       '@contember/client': workspace:*
+      '@contember/react-binding': workspace:*
       '@contember/react-client': workspace:*
       '@contember/react-multipass-rendering': workspace:*
       '@contember/react-utils': workspace:*
@@ -142,8 +142,8 @@ importers:
       stacktracey: 2.1.7
     dependencies:
       '@babel/core': 7.17.10
-      '@contember/binding': link:../binding
       '@contember/client': link:../client
+      '@contember/react-binding': link:../react-binding
       '@contember/react-client': link:../react-client
       '@contember/react-multipass-rendering': link:../react-multipass-rendering
       '@contember/react-utils': link:../react-utils
@@ -251,6 +251,37 @@ importers:
       '@contember/schema': ^0.11.5
     dependencies:
       '@contember/schema': 0.11.5
+
+  packages/react-binding:
+    specifiers:
+      '@contember/binding': workspace:*
+      '@contember/client': workspace:*
+      '@contember/react-client': workspace:*
+      '@contember/react-multipass-rendering': workspace:*
+      '@contember/react-utils': workspace:*
+      '@types/js-levenshtein': 1.1.0
+      '@types/uuid': 8.3.1
+      chevrotain: 6.5.0
+      fast-deep-equal: ^3.1.3
+      js-levenshtein: 1.1.6
+      react: ^18
+      react-dom: ^18
+      uuid: 8.3.2
+    dependencies:
+      '@contember/binding': link:../binding
+      '@contember/client': link:../client
+      '@contember/react-client': link:../react-client
+      '@contember/react-multipass-rendering': link:../react-multipass-rendering
+      '@contember/react-utils': link:../react-utils
+      chevrotain: 6.5.0
+      fast-deep-equal: 3.1.3
+      js-levenshtein: 1.1.6
+      uuid: 8.3.2
+    devDependencies:
+      '@types/js-levenshtein': 1.1.0
+      '@types/uuid': 8.3.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
 
   packages/react-client:
     specifiers:

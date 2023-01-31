@@ -1,6 +1,6 @@
 import { AcceptFileKindError, AcceptedFile, FileHandler } from '../../fileHandler'
 import { DropzoneState, useDropzone } from 'react-dropzone'
-import { EntityAccessor, useBindingOperations, useMutationState } from '@contember/binding'
+import { EntityAccessor, useBindingOperations, useMutationState } from '@contember/react-binding'
 import type {
 	FileId,
 	FileUpload,

@@ -1,4 +1,4 @@
-import { EnvironmentContext, useEnvironment } from '@contember/binding'
+import { EnvironmentContext, useEnvironment } from '@contember/react-binding'
 import { ContainerSpinner, Message } from '@contember/ui'
 import {
 	ComponentType,

@@ -4,7 +4,7 @@ import {
 	EntitySubTreeAdditionalCreationProps,
 	EntitySubTreeAdditionalProps,
 	SugaredUnconstrainedQualifiedSingleEntity,
-} from '@contember/binding'
+} from '@contember/react-binding'
 import { ComponentType, memo, ReactNode } from 'react'
 import { FeedbackRenderer, LayoutRenderer, LayoutRendererProps, PersistButton } from '../../bindingFacade'
 import type { PageProvider } from '../Pages'
