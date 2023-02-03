@@ -19,6 +19,8 @@ jobs:
       - uses: actions/checkout@v3
       - run: npm install -g pnpm@6
       - run: pnpm install
+      - name: "Lint imports"
+        run: yarn tsx ./scripts/lint/module-import-linter.js
       - run: pnpm run eslint:lint
 
   build:

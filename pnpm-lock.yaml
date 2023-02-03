@@ -17,6 +17,7 @@ importers:
       eslint-plugin-prettier: 3.4.0
       eslint-plugin-react: 7.24.0
       eslint-plugin-react-hooks: 4.2.0
+      fast-glob: ^3.2.12
       jsdom: ^17.0.0
       prettier: 2.3.2
       react: ^18.2.0
@@ -41,6 +42,7 @@ importers:
       eslint-plugin-prettier: 3.4.0_5a48a349ffec60f5257b5f148f5199c3
       eslint-plugin-react: 7.24.0_eslint@7.32.0
       eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
+      fast-glob: 3.2.12
       jsdom: 17.0.0
       prettier: 2.3.2
       react: 18.2.0
