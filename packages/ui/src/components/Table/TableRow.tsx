@@ -1,33 +1,26 @@
 import classNames from 'classnames'
-import { memo, ReactNode, useCallback, useContext } from 'react'
+import { memo, MouseEventHandler, ReactNode, useContext } from 'react'
 import { useComponentClassName } from '../../auxiliary'
 import type { Justification } from '../../types'
 import { toEnumViewClass, toFeatureClass, toStateClass } from '../../utils'
 import { UseTableElementContext } from './Table'
 
 export interface TableRowProps {
-	id?: string | number
 	active?: boolean
 	children?: ReactNode
 	justification?: Justification
-	onClick?: (id: number | string) => void
+	onClick?: MouseEventHandler<HTMLTableRowElement>
 }
 
-export const TableRow = memo(({ active, children, id, justification, onClick: onClickProp }: TableRowProps) => {
+export const TableRow = memo(({ active, children, justification, onClick: onClick }: TableRowProps) => {
 	const useTableElement = useContext(UseTableElementContext)
 	const className = classNames(
 		useComponentClassName('table-row'),
 		toEnumViewClass(justification),
-		toFeatureClass('hover', !!onClickProp),
-		toFeatureClass('press', !!onClickProp),
+		toFeatureClass('hover', !!onClick),
+		toFeatureClass('press', !!onClick),
 		toStateClass('active', active),
 	)
-
-	const onClick = useCallback(() => {
-			if (id !== undefined) {
-				onClickProp?.(id)
-			}
-	}, [id, onClickProp])
 
 	if (useTableElement) {
 		return <tr onClick={onClick} className={className}>{children}</tr>

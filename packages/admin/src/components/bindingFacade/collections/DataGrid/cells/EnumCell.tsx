@@ -1,32 +1,36 @@
-import { ReactNode, useMemo } from 'react'
-import { DataGridColumn, DataGridColumnPublicProps } from '../base'
-import { Component, QueryLanguage, SugaredField, SugaredFieldProps, wrapFilterInHasOnes } from '@contember/react-binding'
+import { ComponentType, FunctionComponent, ReactNode } from 'react'
+import { Component, QueryLanguage, SugarableRelativeSingleField, wrapFilterInHasOnes } from '@contember/react-binding'
 import { GraphQlLiteral, Input } from '@contember/client'
-import { FieldFallbackView, FieldFallbackViewPublicProps } from '../../../fieldViews'
-import { Checkbox, FieldContainer } from '@contember/ui'
-import { NullConditionFilter, NullConditionFilterPublicProps } from './NullConditionFilter'
+import { DataGridColumnCommonProps, FilterRendererProps } from '../types'
+import { DataGridColumn } from '../grid'
 
-export type EnumCellProps =
-	& DataGridColumnPublicProps
-	& FieldFallbackViewPublicProps
-	& NullConditionFilterPublicProps
-	& {
-		field: SugaredFieldProps['field']
-		options: Record<string, string>
-		format?: (value: string | null) => ReactNode
+export type EnumCellRendererProps = {
+	field: SugarableRelativeSingleField | string
 }
 
-export type EnumCellArtifacts = {
+export type EnumCellProps =
+	& DataGridColumnCommonProps
+	& EnumCellRendererProps
+
+	& {
+		options: Record<string, string>
+		format?: (value: string | null) => ReactNode
+	}
+
+export type EnumCellFilterArtifacts = {
 	values: string[]
 	nullCondition: boolean
 }
 
 /** @deprecated */
-type LegacyEnumCellArtifacts = string[]
+export type LegacyEnumCellArtifacts = string[]
 
-export const EnumCell = Component<EnumCellProps>(props => {
+export const createEnumCell = <ColumnProps extends {}, ValueRendererProps extends {}, FilterProps extends {}>({ FilterRenderer, ValueRenderer }: {
+	FilterRenderer: ComponentType<FilterRendererProps<EnumCellFilterArtifacts | LegacyEnumCellArtifacts, FilterProps>>,
+	ValueRenderer: ComponentType<EnumCellRendererProps & ValueRendererProps>
+}): FunctionComponent<EnumCellProps & ColumnProps & ValueRendererProps & FilterProps> => Component(props => {
 	return (
-		<DataGridColumn<EnumCellArtifacts | LegacyEnumCellArtifacts>
+		<DataGridColumn<EnumCellFilterArtifacts | LegacyEnumCellArtifacts>
 			{...props}
 			enableOrdering={true}
 			getNewOrderBy={(newDirection, { environment }) =>
@@ -58,41 +62,9 @@ export const EnumCell = Component<EnumCellProps>(props => {
 				})
 			}}
 			emptyFilter={{ nullCondition: false, values: [] }}
-			filterRenderer={({ filter: inFilter, setFilter, environment }) => {
-				const filter = useMemo(() => Array.isArray(inFilter) ? { nullCondition: false, values: inFilter } : inFilter, [inFilter])
-				const values = filter.values
-
-				const checkboxList = Object.entries(props.options).map(([value, label]) => (
-					<FieldContainer
-						key={value}
-						label={label}
-						labelPosition="labelInlineRight"
-					>
-						<Checkbox
-							notNull
-							value={values.includes(value)}
-							onChange={checked => {
-								setFilter({ ...filter, values: checked ? [...values, value] : values.filter(it => it !== value) })
-							}}
-						/>
-					</FieldContainer>
-				))
-
-				return <>
-					{checkboxList}
-					<NullConditionFilter filter={filter} setFilter={setFilter} environment={environment} field={props.field} showNullConditionFilter={props.showNullConditionFilter} />
-				</>
-			}}
+			filterRenderer={filterProps => <FilterRenderer {...filterProps} {...props} />}
 		>
-			<SugaredField<string> field={props.field} format={value => {
-				if (value === null) {
-					return <FieldFallbackView fallback={props.fallback} fallbackStyle={props.fallbackStyle} />
-				}
-				if (props.format) {
-					return props.format(props.options[value])
-				}
-				return props.options[value]
-			}} />
+			<ValueRenderer {...props} />
 		</DataGridColumn>
 	)
 }, 'EnumCell')

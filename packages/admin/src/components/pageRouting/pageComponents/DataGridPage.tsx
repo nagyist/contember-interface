@@ -1,7 +1,10 @@
 import { DataBindingProvider } from '@contember/react-binding'
 import { ComponentType, memo, ReactNode } from 'react'
 import {
-	DataGrid,
+	createDataGrid,
+	createDataGridRenderer,
+	DataGridColumnPublicProps,
+	DataGridContainerPublicProps,
 	DataGridPageRenderer,
 	DataGridProps,
 	FeedbackRenderer,
@@ -9,14 +12,23 @@ import {
 } from '../../bindingFacade'
 import type { PageProvider } from '../Pages'
 import { getPageName } from './getPageName'
+import { ContainerSpinner } from '@contember/ui'
 
 export type DataGridPageProps =
-	& DataGridProps<{}>
+	& DataGridProps<DataGridContainerPublicProps>
 	& {
 		pageName?: string
 		children?: ReactNode
 		rendererProps?: Omit<LayoutRendererProps, 'children'>
 	}
+
+const DataGridForPage = createDataGrid(createDataGridRenderer<DataGridColumnPublicProps, DataGridContainerPublicProps>({
+		Fallback: ContainerSpinner,
+		Container: DataGridPageRenderer,
+		StaticRender: props => <>{props.tile}</>,
+		ColumnStaticRender: props => <>{props.column.header}</>,
+	}),
+)
 
 const DataGridPage: Partial<PageProvider<DataGridPageProps>> & ComponentType<DataGridPageProps> = memo(({
 		children,
@@ -25,9 +37,9 @@ const DataGridPage: Partial<PageProvider<DataGridPageProps>> & ComponentType<Dat
 		...dataGridProps
 	}: DataGridPageProps) => (
 		<DataBindingProvider stateComponent={FeedbackRenderer}>
-			<DataGrid {...dataGridProps} component={DataGridPageRenderer} componentProps={rendererProps}>
+			<DataGridForPage {...dataGridProps} {...rendererProps}>
 				{children}
-			</DataGrid>
+			</DataGridForPage>
 		</DataBindingProvider>
 	),
 )

@@ -33,6 +33,7 @@ const stateOptions = {
 export const List = () => <DataGridPage
 	entities="Article"
 	itemsPerPage={20}
+
 	tile={<DataGridTile
 		to={`article/edit(id: $entity.id)`}
 		thumbnailField="image.url"
