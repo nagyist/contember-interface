@@ -17,20 +17,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: corepack enable
-      - run: corepack prepare yarn@stable --activate
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-v3-
+          node-version: 18
+          cache: 'yarn'
+
+#      - run: corepack enable
+#      - run: corepack prepare yarn@stable --activate
+#      - name: Get yarn cache directory path
+#        id: yarn-cache-dir-path
+#        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+#
+#      - uses: actions/cache@v3
+#        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+#        with:
+#          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+#          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-yarn-v3-
 
       - run: yarn install
       - run: yarn eslint:lint
@@ -41,7 +46,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: yarn install --immutable
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn install
       - run: yarn run build
 
   test:
@@ -50,7 +60,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: yarn install --immutable
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn install
       - run: yarn run test
 
   api-exporter:
@@ -59,7 +74,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: yarn install --immutable
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn install
       - run: yarn run ts:build
       - run: yarn run ae:test
 
@@ -118,7 +138,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: yarn install --immutable
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn install
       - run: yarn workspaces foreach -pt build:js:prod
       - run: yarn workspace @contember/admin pw:build
       - run: yarn workspace @contember/admin pw:test --forbid-only
@@ -153,7 +178,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: yarn install --immutable
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn install
       - run: yarn build
       - run: yarn config set "//registry.npmjs.org/:_authToken" "$NPM_TOKEN"
       - run: yarn config set "git-tag-version" "false"

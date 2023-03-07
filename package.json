@@ -1,14 +1,14 @@
 {
 	"type": "module",
+	"private": true,
 	"scripts": {
-		"build": "yarn workspaces foreach -pt run build",
+		"build": "yarn ts:build && yarn workspaces foreach -p run build",
 		"check": "./scripts/runChecks.sh",
-		"reinstall": "docker run --rm --interactive --tty --network=host -v \"$PWD:$PWD\" -w \"$PWD\" -u \"1000\" node:16-alpine npx pnpm@6 install",
 		"clean": "yarn clean:dependencies && yarn clean:generated",
 		"clean:dependencies": "rm -rf node_modules ee/*/node_modules packages/*/node_modules",
 		"clean:generated": "rm -rf dist ee/*/dist ee/*/temp packages/*/dist packages/*/temp",
 		"contember": "docker-compose run contember-cli",
-		"deploy": "yarn workspaces foreach -pt run deploy",
+		"deploy": "yarn workspaces foreach -p run deploy",
 		"eslint:fix": "eslint --fix \"**/*.{ts,tsx}\" ",
 		"eslint:lint": "eslint \"**/*.{ts,tsx}\" ",
 		"pw:build": "cd packages/admin && docker-compose run --rm playwright-tests npm run -- pw:build",
@@ -23,12 +23,12 @@
 		"start": "docker-compose up --detach && yarn contember migrations:execute . --yes & yarn start:sandbox",
 		"start:sandbox": "yarn workspace @contember/admin-sandbox start",
 		"storybook": "yarn workspace @contember/ui storybook",
-		"test": "yarn workspaces foreach -pt run test --run",
+		"test": "yarn workspaces foreach -p run test --run",
 		"ts:build": "tsc --build",
 		"ts:watch": "tsc --build --watch",
-		"ae:build": "yarn workspaces foreach -pt run ae:build",
+		"ae:build": "yarn workspaces foreach -p run ae:build",
 		"ae:update": "yarn clean:generated && yarn ts:build && yarn ae:build",
-		"ae:test": "yarn workspaces foreach -pt run ae:test"
+		"ae:test": "yarn workspaces foreach -p run ae:test"
 	},
 	"devDependencies": {
 		"@microsoft/api-extractor": "^7.33.5",
@@ -58,5 +58,7 @@
 	"workspaces": [
 		"ee/*",
 		"packages/*"
-	]
+	],
+	"version": "0.0.0",
+	"packageManager": "yarn@3.4.1"
 }
