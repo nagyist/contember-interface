@@ -144,7 +144,7 @@ jobs:
           node-version: 18
           cache: 'yarn'
       - run: yarn install
-      - run: yarn workspaces foreach -pt build:js:prod
+      - run: yarn workspaces foreach -pt run build:js:prod
       - run: yarn workspace @contember/admin pw:build
       - run: yarn workspace @contember/admin pw:test --forbid-only
 
